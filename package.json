@@ -1,0 +1,24 @@
+{
+  "name": "academic-credentials",
+  "private": true,
+  "scripts": {
+    "chain": "hardhat node",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js --network localhost",
+    "backend": "node backend/server.js",
+    "frontend": "npm --prefix frontend run dev",
+    "experiment": "python3 experiments/benchmark.py",
+    "setup": "node scripts/setup-local.js",
+    "check:crypto": "node --test test/merkle.node.test.js"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0",
+    "express": "^4.21.0",
+    "hardhat": "^2.22.0"
+  },
+  "devDependencies": {}
+}

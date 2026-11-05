@@ -1,0 +1,6 @@
+const test=require('node:test');const assert=require('node:assert/strict');const {makeTree,disclosure,verify}=require('../backend/merkle');
+test('Every field can be disclosed independently',()=>{const t=makeTree({name:'Demo Student',degree:'B.Tech',cgpa:'8.6',graduationYear:'2026',branch:'CSE'});for(const f of Object.keys({name:1,degree:1,cgpa:1,graduationYear:1,branch:1})){const d=disclosure(t,f);assert.equal(verify(t.root,d),true);assert.equal(verify(t.root,{...d,value:d.value+'changed'}),false)} });
+test('Wrong salt and sibling invalidate proof',()=>{const t=makeTree({name:'A',degree:'B',cgpa:'9'}),d=disclosure(t,'name');assert.equal(verify(t.root,{...d,salt:'incorrect'}),false);assert.equal(verify(t.root,{...d,siblings:d.siblings.map((s,i)=>i===0?'0x'+'ff'.repeat(32):s)}),false)});
+test('Random salts change root for identical fields',()=>{assert.notEqual(makeTree({degree:'B.Tech'}).root,makeTree({degree:'B.Tech'}).root)});
+test('Reserved delimiter is rejected',()=>{assert.throws(()=>makeTree({name:'A\x1fB'}),/delimiter/)});
+test('Only selected field is in disclosure',()=>{const t=makeTree({name:'Demo Student',degree:'B.Tech'});const d=disclosure(t,'degree');assert.equal(d.value,'B.Tech');assert.equal(JSON.stringify(d).includes('Demo Student'),false)});

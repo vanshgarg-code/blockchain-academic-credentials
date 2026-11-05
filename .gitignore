@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Private student data
+backend/private-data.enc
+backend/data/
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+
+# Local blockchain deployment
+backend/deployment.json
+
+# Hardhat generated files
+artifacts/
+cache/
+coverage/
+typechain-types/
+
+# Frontend build
+dist/
+frontend/dist/
+
+# Python generated files
+__pycache__/
+*.pyc
+
+# Logs and system files
+*.log
+.DS_Store

@@ -7,8 +7,8 @@ A deliberately manageable **local end-to-end academic prototype** with a real So
 From the extracted `academic-credentials/` folder:
 
 ```bash
-npm install
-npm --prefix frontend install
+npm ci
+npm --prefix frontend ci
 npm run setup
 ```
 
@@ -23,19 +23,22 @@ Open four terminals (all commands run from the project root):
 
 If you stop/reset Hardhat, its state is lost: redeploy the contract and restart the backend. Old credential IDs will no longer be valid on a fresh chain; avoid mixing old encrypted records with a newly reset chain.
 
+The Vite development server proxies `/api` to port 3001. Set `CREDENTIALS_API_TARGET` before starting Vite if you change the API port. For a production build, serve `/api` from the same origin or set `VITE_API_BASE` before building.
+
 ## Five-minute demo
 
-1. **Issue:** paste the admin key from `.env`. Issue a test credential (fake data only). Save the returned student token and credential ID as a private file.
-2. **Disclose:** use the ID and private token, select `degree`, generate a Merkle proof and download the disclosure JSON.
-3. **Verify:** load the JSON into the verification tab. It queries the Solidity read-only method and shows valid.
-4. **Tamper:** change the degree value in the JSON. Verification must fail.
-5. **Revoke:** use the admin key to revoke the credential. Verify the original unmodified JSON again: it must fail with `REVOKED` status.
-6. **Inspect:** view the public root, issuer, timestamp, version and status, with no student fields.
+1. **University:** enter the admin key from `.env`, issue a fake credential, then save the private student access file.
+2. **Student:** import the access file or use **Open student view** after issuing. Load the available fields, select one or more, and export the disclosure proof.
+3. **Verifier:** open or import the proof and verify it. The screen shows the verified claims and the chain result.
+4. **Tamper:** change a disclosed value and verify again. Verification should fail.
+5. **University:** revoke the issued credential. Verify the original proof again to see the revoked status.
+6. **Activity:** inspect the public record or view recent issuance and revocation events.
 
 ## Tests
 
 - `npm run check:crypto`: standalone Node tests (no external npm dependencies) for field isolation, SHA-256 proof validation, tampering, random salts and delimiter rejection.
-- `npm test`: Hardhat contract tests (requires `npm install` and compilation) for access restrictions, duplication, issuance, verification, revocation and tampering.
+- `npm run smoke`: with the local chain, deployed contract and API running, checks issuance retry, student authorization, legacy and multi-field proofs, tampering, revocation, and activity. It creates and revokes a demo credential.
+- `npm test`: Hardhat contract tests (requires `npm ci` and compilation) for access restrictions, duplication, issuance, verification, revocation and tampering.
 - `npm run experiment`: independent Python toy PoW + optimistic concurrency CSV. **This experiment is not Ethereum mining or EVM execution.** Python's GIL and negligible per-operation computation may make concurrency slower than sequential execution.
 
 ## Architecture and blockchain semantics
@@ -54,7 +57,7 @@ Merkle leaf format is `SHA256(utf8(field) || 0x1f || utf8(value) || 0x1f || utf8
 
 - The backend holds a **demo-only local issuer key** and signs writes; its write endpoints require a **random admin key**, but this is not equivalent to a production identity system. Keep the service bound to loopback. Browser-managed keys, secure sessions and wallet-based role authentication are future extensions.
 - The student token is a bearer secret; anyone with the token can disclose any stored field. A disclosure JSON intentionally reveals the chosen field, value and salt. **Merkle membership is not zero-knowledge.**
-- The encrypted JSON store is AES-256-GCM protected but not a transactional multi-user DB. Server-side access, `.env` leakage, or a lost DATA_KEY compromises or blocks access. A failure after successful on-chain issuance can leave a chain record without a corresponding local record.
+- The encrypted JSON store is AES-256-GCM protected but not a transactional multi-user DB. Server-side access, `.env` leakage, or a lost DATA_KEY compromises or blocks access. The API saves the encrypted record before submitting issuance. Retry from the same open University view to reuse its request ID. API clients should persist their request IDs and resend the original fields. Run a single API process for this local store and signer.
 - An issuer removed from the authorized list cannot issue new credentials; existing credentials remain verifiable; the original issuer can still revoke them.
 - No actual university login, identity attestation, production-grade key management, wallet connect, email/SMS notification, decentralized hosting, publicly deployed blockchain, independent smart-contract audit, or IPFS is included.
 - All verification results rely on a functioning trusted connection to the configured local RPC chain; a malicious or compromised backend could misrepresent results.
@@ -77,4 +80,4 @@ Merkle leaf format is `SHA256(utf8(field) || 0x1f || utf8(value) || 0x1f || utf8
 - `scripts/setup-local.js`, `scripts/deploy.js`: local secrets and contract deployment
 - `experiments/benchmark.py`: distinct PoW and concurrent-execution simulation
 
-For full implementation details, read `Implementation_Guide_Improved.pdf` alongside this project.
+The bundled `Implementation_Guide_Improved.pdf` describes the original prototype. Use this README for the updated workflow.

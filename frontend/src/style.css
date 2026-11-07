@@ -1,3 +1,37 @@
-*{box-sizing:border-box}body{margin:0;background:#0b1220;color:#e9eef9;font-family:Inter,system-ui,Arial,sans-serif}.shell{max-width:1000px;margin:35px auto;padding:0 20px}header{display:flex;align-items:center;gap:18px;margin-bottom:24px}.logo{font-size:45px;color:#71a5ff}h1{margin:0;font-size:30px}h2{margin-top:0}p{color:#9cacc8;line-height:1.6}header p{margin:5px 0}.meta{display:flex;flex-wrap:wrap;gap:16px;padding:18px;background:#14213a;border:1px solid #253756;border-radius:15px}.meta span{font-size:11px;color:#8399b9;flex:1}.meta strong{display:block;color:#e8efff;font-size:13px;margin-top:7px}nav{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0}button{cursor:pointer;border:1px solid #314565;background:#172741;color:#dbe7ff;border-radius:9px;padding:11px 18px;font-weight:600}button.active,.primary{background:#477df1;border-color:#477df1;color:white}.danger{background:#b73e57;border-color:#b73e57}button:disabled{opacity:.5}main{background:#14213a;border:1px solid #253756;padding:30px;border-radius:16px;min-height:380px}label{display:block;margin:16px 0;color:#b8c9e5;font-size:13px}input,textarea{display:block;width:100%;margin-top:7px;padding:12px 13px;background:#0b162b;border:1px solid #334b70;border-radius:8px;color:#f0f5ff;font:14px monospace}textarea{resize:vertical}.result,.error{margin-top:20px;padding:18px;border-radius:10px;background:#0c1b32;overflow:auto}.error{color:#ff9fae;background:#341b2b}pre{white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.6}footer{color:#6f829e;text-align:center;font-size:12px;margin:25px}
-
-input[type=file]{font-family:inherit}button:hover:not(:disabled){filter:brightness(1.13)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #9fc0ff;outline-offset:2px}@media(max-width:600px){.shell{padding:0 12px;margin:16px auto}main{padding:18px}h1{font-size:24px}.meta{gap:9px}.meta span{min-width:130px}button{padding:10px 12px}}
+:root { color-scheme: light; font-family: system-ui, sans-serif; background: #f2f5f8; color: #172941; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.shell { max-width: 1050px; padding: 36px 20px; margin: auto; }
+header { background: #102b46; color: white; border-radius: 18px; padding: clamp(24px, 5vw, 54px); }
+h1 { font-size: clamp(32px, 6vw, 54px); margin: 8px 0; letter-spacing: -.045em; }
+h2, h3 { margin-top: 0; }
+p { color: #43556c; line-height: 1.55; }
+header p { color: #d1e2f3; margin-bottom: 0; }
+.eyebrow { color: #a7e4d9; letter-spacing: .12em; font-weight: 700; font-size: .75rem; }
+.health, .card { background: white; border: 1px solid #d7e0e9; border-radius: 14px; padding: 22px; }
+.health { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0; }
+nav button, .secondary { background: #eaf0f6; color: #172941; }
+nav button[aria-current] { background: #102b46; color: white; }
+.columns { display: grid; grid-template-columns: 1.15fr 1fr; align-items: start; gap: 16px; }
+button, input, textarea { font: inherit; }
+button { border: 0; padding: .68rem 1rem; border-radius: 8px; color: white; background: #145949; cursor: pointer; font-weight: 650; }
+button + button { margin-left: 6px; }
+nav button + button { margin-left: 0; }
+button.danger { background: #a12938; }
+button:disabled { opacity: .55; cursor: default; }
+:focus-visible { outline: 3px solid #237abe; outline-offset: 3px; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+label { display: block; font-weight: 600; margin: 12px 0; }
+input:not([type=checkbox]), textarea { display: block; width: 100%; margin-top: 6px; border: 1px solid #a6b6c8; border-radius: 8px; padding: .64rem; color: inherit; background: #fbfdff; }
+textarea { resize: vertical; font-family: monospace; }
+.choices { margin-top: 16px; }
+.choices input { margin-right: 8px; }
+.outcome, .error { padding: 14px; border-radius: 8px; margin-top: 16px; background: #e9f7f1; overflow-wrap: anywhere; }
+.error, .rejected { color: #7c1f31; background: #fbeef0; }
+details { margin: 12px 0; overflow-wrap: anywhere; }
+summary { cursor: pointer; font-weight: 650; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+code { overflow-wrap: anywhere; }
+footer { text-align: center; color: #43556c; margin-top: 26px; font-size: .86rem; }
+@media (max-width: 700px) { .columns { grid-template-columns: 1fr; } .shell { padding: 18px 12px; } .card { padding: 16px; } }

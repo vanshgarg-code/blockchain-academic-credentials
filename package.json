@@ -10,15 +10,20 @@
     "frontend": "npm --prefix frontend run dev",
     "experiment": "python3 experiments/benchmark.py",
     "setup": "node scripts/setup-local.js",
-    "check:crypto": "node --test test/merkle.node.test.js"
+    "check:crypto": "node --test test/merkle.node.test.js",
+    "smoke": "node scripts/smoke.js"
   },
   "dependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.0",
-    "express": "^4.21.0",
-    "hardhat": "^2.22.0"
+    "express": "^4.21.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "hardhat": "2.29.1",
+    "@nomicfoundation/hardhat-ethers": "3.1.3",
+    "@nomicfoundation/hardhat-chai-matchers": "2.1.2",
+    "chai": "4.5.0",
+    "solc": "0.8.24"
+  }
 }

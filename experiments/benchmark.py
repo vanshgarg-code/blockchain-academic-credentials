@@ -50,7 +50,7 @@ def main():
             for workers in (2,4,8):
                 par,t2=run(keys,workers)
                 same=seq.values==par.values
-                rows.append({'transactions':n,'conflict_fraction':conflict,'workers':workers,'sequential_s':round(t1,6),'concurrent_s':round(t2,6),'throughput_tx_s':round(n/t2,2),'speedup':round(t1/t2,3),'aborts':par.aborts,'consistent':same})
+                rows.append({'transactions':n,'configured_key_concentration':conflict,'workers':workers,'sequential_s':round(t1,6),'concurrent_s':round(t2,6),'throughput_tx_s':round(n/t2,2),'speedup':round(t1/t2,3),'aborts':par.aborts,'consistent':same})
                 assert same
     with (out/'benchmark.csv').open('w',newline='') as f:w=csv.DictWriter(f,rows[0]);w.writeheader();w.writerows(rows)
     print('Saved benchmark.csv; consistent in all',len(rows),'configurations')

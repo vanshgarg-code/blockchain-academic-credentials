@@ -1,4 +1,4 @@
-transactions,conflict_fraction,workers,sequential_s,concurrent_s,throughput_tx_s,speedup,aborts,consistent
+transactions,configured_key_concentration,workers,sequential_s,concurrent_s,throughput_tx_s,speedup,aborts,consistent
 100,0.0,2,0.000276,0.001496,66845.99,0.184,0,True
 100,0.0,4,0.000276,0.002504,39939.48,0.11,0,True
 100,0.0,8,0.000276,0.006542,15286.1,0.042,0,True

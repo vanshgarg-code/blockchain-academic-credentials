@@ -62,11 +62,21 @@ Merkle leaf format is `SHA256(utf8(field) || 0x1f || utf8(value) || 0x1f || utf8
 - No actual university login, identity attestation, production-grade key management, wallet connect, email/SMS notification, decentralized hosting, publicly deployed blockchain, independent smart-contract audit, or IPFS is included.
 - All verification results rely on a functioning trusted connection to the configured local RPC chain; a malicious or compromised backend could misrepresent results.
 
-## Project ownership (two teammates)
 
-**Teammate A:** Solidity contract, Hardhat tests, deployment and event/transaction explanation.
-**Teammate B:** Merkle hashing, encrypted off-chain store, React pages, API and student token flow.
-**Together:** security demo, Python PoW/concurrency limitations and performance interpretation.
+
+## Contributors
+
+### Vansh Garg
+- Designed and developed the project architecture.
+- Implemented the Solidity smart contracts for academic credential issuance and revocation.
+- Developed the backend APIs and blockchain integration.
+- Implemented cryptographic mechanisms, including SHA-256 hashing and Merkle Trees.
+- Developed the React frontend and user interfaces.
+- Implemented student selective disclosure and credential verification.
+- Performed testing, debugging, and performance evaluation.
+- Managed project integration, documentation, and GitHub repository updates.
+
+
 
 ## Folder guide
 

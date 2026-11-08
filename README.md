@@ -1,4 +1,4 @@
-# Blockchain-Based Academic Credentials — Improved CSD436 Prototype
+# Blockchain-Based Academic Credentials
 
 A deliberately manageable **local end-to-end academic prototype** with a real Solidity smart contract, Hardhat Ethereum-compatible chain, Express API, React frontend, encrypted JSON data store, Merkle selective disclosure, on-chain revocation and separate Python experiments.
 

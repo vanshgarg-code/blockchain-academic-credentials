@@ -1,5 +1,7 @@
 # Blockchain-Based Academic Credentials
 
+> **CSD436 final-polish branch:** responsive university / student / verifier / activity experience, improved readable blockchain event history, new lifecycle tests, and GitHub Actions checks. The core contract and cryptographic design remain compatible with the original project report.
+
 A deliberately manageable **local end-to-end academic prototype** with a real Solidity smart contract, Hardhat Ethereum-compatible chain, Express API, React frontend, encrypted JSON data store, Merkle selective disclosure, on-chain revocation and separate Python experiments.
 
 ## Quick start (Node.js 20+, npm, Python 3.10+)
@@ -91,3 +93,46 @@ Merkle leaf format is `SHA256(utf8(field) || 0x1f || utf8(value) || 0x1f || utf8
 - `experiments/benchmark.py`: distinct PoW and concurrent-execution simulation
 
 The bundled `Implementation_Guide_Improved.pdf` describes the original prototype. Use this README for the updated workflow.
+
+## Final demonstration walkthrough (professor-friendly)
+
+1. Start a fresh Hardhat node and deploy the contract as described above. Confirm the **Connected** network indicator and the contract address in the application.
+2. In **University**, enter the `ADMIN_API_KEY` from your private local `.env`. Issue a **fictional** academic record and save the **private access file** outside the GitHub folder.
+3. In **Student**, import that access file. Choose exactly the fields needed (for example, **degree**) and download the selective disclosure JSON. Explain that the on-chain commitment is a SHA-256 Merkle root; the selected values and their salts appear only in the disclosure.
+4. In **Verifier**, import the disclosure. Explain how the smart contract recomputes the salted leaf and traverses sibling hashes while checking the current on-chain status.
+5. Modify a disclosed value without recomputing the root; show rejection. **Do not change a real student's information**.
+6. In **University**, revoke the same credential. Reverify its *original* valid disclosure and show **Revoked**. Highlight that a correct Merkle proof is not sufficient if the contract state is revoked.
+7. In **Activity**, load the blockchain events and inspect the issuance/revocation transaction hashes. Explain the difference between a blockchain event (audit log) and off-chain private data.
+8. Run `npm run check:crypto`, `npm test` and `npm run experiment`. Show the experimental CSV; explain that Python's PoW and optimistic concurrency are **educational simulations**, not part of Hardhat consensus.
+
+## How to review this enhancement safely
+
+These changes are deliberately on the branch `enhancement/csd436-final-polish`, not directly on `main`.
+
+```powershell
+git status
+git fetch origin
+git switch enhancement/csd436-final-polish
+npm ci
+npm --prefix frontend ci
+npm run check:crypto
+npm test
+npm --prefix frontend run build
+```
+
+If you already have local changes, commit or stash them **before** switching branches. Keep your existing `.env` private; `npm run setup` is only needed for fresh local setups.
+
+To run the full application use the four-terminal commands near the top. Never commit `.env`, off-chain encrypted data, or student access files.
+
+### Security and scope notes
+
+- `ADMIN_API_KEY` is a local demo gate, **not** production-grade issuer authentication or student identity verification.
+- The backend issues transactions with a local wallet; Ethereum cannot hide issuer addresses or transactions.
+- Selective Merkle disclosure reveals the chosen field and proof. It is **not a zero-knowledge proof**.
+- This prototype stores encrypted academic records locally. It does not implement distributed persistence, IPFS or real university identity systems.
+- Event history fetches a limited block window. Use it as a **recent activity display**, not a complete historical chain index.
+- The CSD436 report describes PoW and optimistic concurrency alongside Ethereum; this project correctly separates those Python simulation experiments from the Solidity/Hardhat system.
+
+## Continuous integration
+
+The GitHub Actions workflow at `.github/workflows/ci.yml` runs installation, standalone Merkle tests, Solidity/Hardhat tests and a frontend production build on push and pull request. The local API smoke test needs a running chain, deployment and private environment, so it is not part of that CI job.

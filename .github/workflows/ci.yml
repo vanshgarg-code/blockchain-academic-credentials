@@ -1,0 +1,29 @@
+name: Blockchain project checks
+
+on:
+  push:
+    branches: [main, 'enhancement/**']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install backend and contract dependencies
+        run: npm ci
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+      - name: Check cryptographic utilities
+        run: npm run check:crypto
+      - name: Compile and test Solidity contract
+        run: npm test
+      - name: Build React interface
+        run: npm --prefix frontend run build
+      - name: Explain scope
+        run: echo "API integration smoke tests run locally with a running Hardhat node and setup environment."

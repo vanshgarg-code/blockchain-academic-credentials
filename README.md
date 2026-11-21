@@ -94,7 +94,7 @@ Merkle leaf format is `SHA256(utf8(field) || 0x1f || utf8(value) || 0x1f || utf8
 
 The bundled `Implementation_Guide_Improved.pdf` describes the original prototype. Use this README for the updated workflow.
 
-## Final demonstration walkthrough (professor-friendly)
+## Final demonstration walkthrough 
 
 1. Start a fresh Hardhat node and deploy the contract as described above. Confirm the **Connected** network indicator and the contract address in the application.
 2. In **University**, enter the `ADMIN_API_KEY` from your private local `.env`. Issue a **fictional** academic record and save the **private access file** outside the GitHub folder.
